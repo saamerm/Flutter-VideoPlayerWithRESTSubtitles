@@ -1,26 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:english_words/english_words.dart';
-import 'package:video_with_subtitles/saved_list.dart';
+import 'saved_list.dart';
 
-void main() => runApp(MyApp());
-
-class MyApp extends StatelessWidget {
+class ListPage extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {         
-    return MaterialApp(
-      theme: ThemeData(
-        primaryColor: Colors.grey,
-      ),
-      home: RandomWords(),            
-    );
-  }
+  ListPageState createState() => ListPageState();
 }
 
-class RandomWordsState extends State<RandomWords> {
+class ListPageState extends State<ListPage> {
   final _suggestions = <WordPair>[];
   final _saved = Set<WordPair>();
   final _biggerFont = const TextStyle(fontSize: 18.0);
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -80,9 +71,4 @@ class RandomWordsState extends State<RandomWords> {
       ), 
     );
   }
-}
-
-class RandomWords extends StatefulWidget {
-  @override
-  RandomWordsState createState() => RandomWordsState();
 }
