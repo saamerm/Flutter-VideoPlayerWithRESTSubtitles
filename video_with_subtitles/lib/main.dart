@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'list_page.dart';
+import 'package:video_with_subtitles/views/list_page.dart';
 
 void main() => runApp(MyApp());
 

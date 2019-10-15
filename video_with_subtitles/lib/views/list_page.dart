@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:english_words/english_words.dart';
-import 'saved_list.dart';
+import 'package:video_with_subtitles/models/video.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'package:video_with_subtitles/views/list_detail.dart';
 
 class ListPage extends StatefulWidget {
   @override
@@ -8,67 +10,68 @@ class ListPage extends StatefulWidget {
 }
 
 class ListPageState extends State<ListPage> {
-  final _suggestions = <WordPair>[];
-  final _saved = Set<WordPair>();
-  final _biggerFont = const TextStyle(fontSize: 18.0);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Startup Names Generator'),
-        actions: <Widget>[
-          IconButton(icon: Icon(Icons.list), onPressed: _pushSaved),
-        ],
-      ),
-      body: _buildSuggestions(),
-    );
-  }
-  
-  Widget _buildSuggestions() {
-    return ListView.builder(
-      padding: const EdgeInsets.all(16.0),
-      itemBuilder: /*1*/ (context, i) {
-        if (i.isOdd) return Divider(); /*2*/
-
-        final index = i ~/ 2; /*3*/
-        if (index >= _suggestions.length) {
-          _suggestions.addAll(generateWordPairs().take(10)); /*4*/
-        }
-        return _buildRow(_suggestions[index]);
-      });
-  }
-  
-  Widget _buildRow(WordPair pair) {
-    final alreadySaved = _saved.contains(pair);
-    return ListTile(
-      title: Text(
-        pair.asPascalCase,
-        style: _biggerFont,
-      ),
-      trailing: Icon(
-        alreadySaved ? Icons.favorite : Icons.favorite_border,
-        color: alreadySaved ? Colors.red : null,
-      ),
-      onTap: (){
-        setState(() {
-          if (alreadySaved){
-            _saved.remove(pair);
-          }
-          else{
-            _saved.add(pair);
-          }
-        });
-      },
-    );
-  }
-  void _pushSaved() {
+  List<Video> list = List();
+  var isLoading = false;
+  void _openPage(String selected)
+  {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) {
-          return new SavedWordsListPage(_saved);
+          return new SelectedVideoDetailPage(selected);
         },
       ), 
+    );
+  }
+  _fetchData() async {
+    setState(() {
+      isLoading = true;
+    });
+    final response =
+        await http.get("https://gist.githubusercontent.com/saamerm/b19235a8d06397a36eddd0d8f341574c/raw/133199dc9b034b5452e4459b27c8a7d7be8818a2/ListId.json");
+    if (response.statusCode == 200) {
+      list = (json.decode(response.body) as List)
+        .map((data) => new Video.fromJson(data))
+        .toList();
+      setState(() {
+        isLoading = false;
+      });
+    } else {
+      throw Exception('Failed to load photos');
+    }
+  }
+  @override
+  initState(){
+    super.initState();
+    _fetchData();
+  }
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+          title: Text("Your Video List"),
+        ),
+        body: isLoading
+            ? Center(
+                child: CircularProgressIndicator(),
+              )
+            : ListView.builder(
+                itemCount: list.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return ListTile(
+                    onTap: (){
+                      _openPage(list[index].id);
+                    },
+                    contentPadding: EdgeInsets.all(10.0),
+                    title: new Text(list[index].title),
+                    trailing: new Image.network(
+                      list[index].thumbnail,
+                      fit: BoxFit.cover,
+                      height: 40.0,
+                      width: 40.0,
+                    ),
+                  );
+                }
+              ) 
     );
   }
 }
