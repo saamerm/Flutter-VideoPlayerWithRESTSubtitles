@@ -18,8 +18,7 @@ class _SelectedVideoDetailPageState extends State<SelectedVideoDetailPage> {
       isLoading = true;
     });
     String url = "https://static.chorus.ai/api/${widget._selected}.json";
-    final response =
-        await http.get(url);
+    final response = await http.get(url);
     if (response.statusCode == 200) {
       list = (json.decode(response.body) as List)
         .map((data) => new VideoDetails.fromJson(data))
@@ -38,7 +37,8 @@ class _SelectedVideoDetailPageState extends State<SelectedVideoDetailPage> {
       super.initState();
      _fetchData();
   }
-    @override
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
