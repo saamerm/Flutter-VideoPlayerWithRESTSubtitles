@@ -67,7 +67,7 @@ class _SelectedVideoDetailPageState extends State<SelectedVideoDetailPage> {
             new Container(
               child:
                 new Container(
-                  padding: EdgeInsets.only(top: 42, left: 13, right: 13, bottom: 50 ),
+                  padding: EdgeInsets.only(top: 30, left: 13, right: 13, bottom: 30 ),
                   height: MediaQuery.of(context).size.height - 200.0,
                   width: MediaQuery.of(context).size.width - 66.0,
                   color: Colors.white,
@@ -97,6 +97,7 @@ class _SelectedVideoDetailPageState extends State<SelectedVideoDetailPage> {
                             )
                           : Container(),
                         ),
+                        Divider(color: Colors.grey),
                         isLoading
                           ? Center(
                               child: CircularProgressIndicator(),
