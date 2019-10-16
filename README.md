@@ -18,8 +18,15 @@ This app consists of a ListView page and a ListDetail page that consists of comp
 ![Home page screenshot](/Screenshots/IMG_1113.PNG "Home page")
 ![List Detail page screenshot](/Screenshots/IMG_1114.PNG "List Detail page")
 
-### Todos
+### To Do's
 
 * Reduce the size of the build function in the list view page
 * Use view models
 * Add unit tests
+* Adding a github action for building
+
+### How you can use this
+
+* Fork this repo and Create a PR if you want to tackle any of the To Do's
+* This app follows the basic Flutter tutorials from the website, and so you can go through the commit history to see each of the buildable stages.
+* You can use this code to populate jokes list view pages using ICNDB.com
