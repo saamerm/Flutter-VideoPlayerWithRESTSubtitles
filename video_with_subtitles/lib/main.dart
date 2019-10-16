@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:video_with_subtitles/views/list_page.dart';
 
-void main() => runApp(MyApp());
+Future<void> main() async {
+  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  return runApp(new MyApp());
+}
 
 class MyApp extends StatelessWidget {
   @override

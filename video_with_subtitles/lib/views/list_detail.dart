@@ -67,18 +67,18 @@ class _SelectedVideoDetailPageState extends State<SelectedVideoDetailPage> {
             new Container(
               child:
                 new Container(
-                  padding: EdgeInsets.only(top: 30, left: 13, right: 13, bottom: 30 ),
+                  padding: EdgeInsets.only(top: 20, left: 13, right: 13, bottom: 20 ),
                   height: MediaQuery.of(context).size.height - 200.0,
                   width: MediaQuery.of(context).size.width - 66.0,
                   color: Colors.white,
                   child: 
                     Column(
                       children: <Widget>[
-                        Text(
-                          "Moment from meeting with Two Pillars\n",
+                        Text("Moment from meeting with Two Pillars\n",
+                          textAlign: TextAlign.center,
                           style: TextStyle(
-                            fontSize: 16,
-                            color: Color.fromRGBO(51, 51, 51, 1)
+                              fontSize: 16,
+                              color: Color.fromRGBO(51, 51, 51, 1)
                           ),
                         ),
                         new GestureDetector(
@@ -129,7 +129,7 @@ class _SelectedVideoDetailPageState extends State<SelectedVideoDetailPage> {
                                         Column(
                                           children: <Widget>[
                                             Container(
-                                              width: 291,
+                                              width: MediaQuery.of(context).size.width/2 + 40,
                                               padding: EdgeInsets.all(3),
                                               child:
                                                 Text(
@@ -139,7 +139,7 @@ class _SelectedVideoDetailPageState extends State<SelectedVideoDetailPage> {
                                                 ),                                            
                                             ),
                                             Container(
-                                              width: 291,
+                                              width: MediaQuery.of(context).size.width/2 + 40,
                                               padding: EdgeInsets.all(11),
                                               color: Color.fromRGBO(247, 247, 247, 1),
                                               child:
@@ -170,7 +170,7 @@ class _SelectedVideoDetailPageState extends State<SelectedVideoDetailPage> {
                                         Column(
                                           children: <Widget>[
                                             Container(
-                                              width: 291,
+                                              width: MediaQuery.of(context).size.width/2 + 40,
                                               padding: EdgeInsets.all(11),
                                               color: Color.fromRGBO(247, 247, 247, 1),
                                               child:
@@ -201,7 +201,7 @@ class _SelectedVideoDetailPageState extends State<SelectedVideoDetailPage> {
                                         Column(
                                           children: <Widget>[
                                             Container(
-                                              width: 291,
+                                              width: MediaQuery.of(context).size.width/2 + 40,
                                               padding: EdgeInsets.all(11),
                                               color: Color.fromRGBO(247, 247, 247, 1),
                                               child:
@@ -232,7 +232,7 @@ class _SelectedVideoDetailPageState extends State<SelectedVideoDetailPage> {
                                         Column(
                                           children: <Widget>[
                                             Container(
-                                              width: 291,
+                                              width: MediaQuery.of(context).size.width/2 + 40,
                                               padding: EdgeInsets.all(3),
                                               child:
                                                 Text(
@@ -242,7 +242,7 @@ class _SelectedVideoDetailPageState extends State<SelectedVideoDetailPage> {
                                                 ),                                            
                                             ),
                                             Container(
-                                              width: 291,
+                                              width: MediaQuery.of(context).size.width/2 + 40,
                                               padding: EdgeInsets.all(11),
                                               color: Color.fromRGBO(247, 247, 247, 1),
                                               child:
