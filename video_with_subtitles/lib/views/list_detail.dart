@@ -81,12 +81,22 @@ class _SelectedVideoDetailPageState extends State<SelectedVideoDetailPage> {
                             color: Color.fromRGBO(51, 51, 51, 1)
                           ),
                         ),
-                        _controller.value.initialized
+                        new GestureDetector(
+                            onTap: (){
+                              if (_controller.value.isPlaying) {
+                                _controller.pause();
+                              } else {
+                                // If the video is paused, play it.
+                                _controller.play();
+                              }
+                            },
+                          child:_controller.value.initialized
                           ? AspectRatio(
                               aspectRatio: _controller.value.aspectRatio,
-                              child: VideoPlayer(_controller),
+                              child: VideoPlayer(_controller)
                             )
                           : Container(),
+                        ),
                         isLoading
                           ? Center(
                               child: CircularProgressIndicator(),
@@ -97,11 +107,21 @@ class _SelectedVideoDetailPageState extends State<SelectedVideoDetailPage> {
                                 shrinkWrap: true,
                                 physics: const AlwaysScrollableScrollPhysics(),
                                 itemBuilder: (BuildContext context, int index) {
-                                  return ListTile(
-                                    contentPadding: EdgeInsets.all(5.0),
-                                    title: new Text(list[index].snippet),
-                                    trailing: new Text(list[index].speaker),
-                                  );
+                                  if(index > 0 && list[index].speaker == list[index-1].speaker)
+                                  {
+                                    return ListTile(
+                                      contentPadding: EdgeInsets.all(5.0),
+                                      title: new Text(list[index].snippet),
+                                    );
+                                  }
+                                  else
+                                  {
+                                    return ListTile(
+                                      contentPadding: EdgeInsets.all(5.0),
+                                      trailing: new Text(list[index].speaker),
+                                      title: new Text(list[index].snippet),
+                                    );
+                                  }
                                 }
                               ),
                             ),
