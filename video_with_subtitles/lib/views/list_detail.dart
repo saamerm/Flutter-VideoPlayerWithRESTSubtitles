@@ -63,7 +63,7 @@ class _SelectedVideoDetailPageState extends State<SelectedVideoDetailPage> {
         ),
         body: new Column(
           children:[
-            new Spacer(flex: 5),
+            new Spacer(flex: 1),
             new Container(
               child:
                 new Container(
@@ -107,19 +107,149 @@ class _SelectedVideoDetailPageState extends State<SelectedVideoDetailPage> {
                                 shrinkWrap: true,
                                 physics: const AlwaysScrollableScrollPhysics(),
                                 itemBuilder: (BuildContext context, int index) {
-                                  if(index > 0 && list[index].speaker == list[index-1].speaker)
+                                  // There are four cases, 
+                                  // 1) Display transcript and speaker name
+                                  if((index == 0 || (index > 0 && list[index].speaker != list[index-1].speaker)) && (list.length > index + 1 && list[index].speaker == list[index + 1].speaker))
                                   {
-                                    return ListTile(
-                                      contentPadding: EdgeInsets.all(5.0),
-                                      title: new Text(list[index].snippet),
+                                    return Row(
+                                      children:[
+                                        Container(
+                                          height: 24.0,
+                                          width: 24.0,
+                                          decoration: new BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: Colors.transparent,
+                                            border: new Border.all(
+                                              color: Colors.transparent
+                                            )
+                                          ),
+                                        ),
+                                        Spacer(flex: 1),
+                                        Column(
+                                          children: <Widget>[
+                                            Container(
+                                              width: 291,
+                                              padding: EdgeInsets.all(3),
+                                              child:
+                                                Text(
+                                                  list[index].speaker,
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(fontSize: 12, fontFamily: "NotoSans", color: Color.fromRGBO(51, 51, 51, 1)),
+                                                ),                                            
+                                            ),
+                                            Container(
+                                              width: 291,
+                                              padding: EdgeInsets.all(11),
+                                              color: Color.fromRGBO(247, 247, 247, 1),
+                                              child:
+                                              Text(list[index].snippet)
+                                            ),
+                                          ], 
+                                        )
+                                      ],
                                     );
                                   }
+                                  // 2) Display transcript only
+                                  else if((index > 0 && list[index].speaker == list[index-1].speaker) && (list.length > index + 1 && list[index].speaker == list[index + 1].speaker))
+                                  {
+                                    return Row(
+                                      children:[
+                                        Container(
+                                          height: 24.0,
+                                          width: 24.0,
+                                          decoration: new BoxDecoration(
+                                            color: Colors.transparent,
+                                            shape: BoxShape.circle,
+                                            border: new Border.all(
+                                              color: Colors.transparent
+                                            )
+                                          ),                                        
+                                        ),
+                                        Spacer(flex: 1),
+                                        Column(
+                                          children: <Widget>[
+                                            Container(
+                                              width: 291,
+                                              padding: EdgeInsets.all(11),
+                                              color: Color.fromRGBO(247, 247, 247, 1),
+                                              child:
+                                              Text(list[index].snippet)
+                                            )
+                                          ],
+                                        )
+                                      ]
+                                    );
+                                  }
+                                  // 3) Display transcript and image
+                                  else if((index > 0 && list[index].speaker == list[index-1].speaker) && ((list.length > index + 1 && list[index].speaker != list[index + 1].speaker) || index == list.length))
+                                  {
+                                    return Row(
+                                      children:[
+                                        Container(
+                                          height: 24.0,
+                                          width: 24.0,
+                                          decoration: new BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: (list[index].speaker == "Cust") ? Color.fromRGBO(238, 110, 255, 0.1) : Color.fromRGBO(0, 0, 167, 0.1),
+                                            border: new Border.all(
+                                              color: (list[index].speaker == "Cust") ? Color.fromRGBO(238, 110, 255, 1) : Color.fromRGBO(0, 0, 167, 1),
+                                            )
+                                          ),
+                                        ),
+                                        Spacer(flex: 1),
+                                        Column(
+                                          children: <Widget>[
+                                            Container(
+                                              width: 291,
+                                              padding: EdgeInsets.all(11),
+                                              color: Color.fromRGBO(247, 247, 247, 1),
+                                              child:
+                                              Text(list[index].snippet)
+                                            )
+                                          ],
+                                        )
+                                      ]
+                                    );
+                                  }
+                                  // 4) Display image, speaker and transcript
                                   else
                                   {
-                                    return ListTile(
-                                      contentPadding: EdgeInsets.all(5.0),
-                                      trailing: new Text(list[index].speaker),
-                                      title: new Text(list[index].snippet),
+                                    return Row(
+                                      children:[
+                                        Container(
+                                          height: 24.0,
+                                          width: 24.0,
+                                          decoration: new BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: (list[index].speaker == "Cust") ? Color.fromRGBO(238, 110, 255, 0.1) : Color.fromRGBO(0, 0, 167, 0.1),
+                                            border: new Border.all(
+                                              color: (list[index].speaker == "Cust") ? Color.fromRGBO(238, 110, 255, 1) : Color.fromRGBO(0, 0, 167, 1),
+                                            )
+                                          ),
+                                        ),
+                                        Spacer(flex: 1),
+                                        Column(
+                                          children: <Widget>[
+                                            Container(
+                                              width: 291,
+                                              padding: EdgeInsets.all(3),
+                                              child:
+                                                Text(
+                                                  list[index].speaker,
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(fontSize: 12, fontFamily: "NotoSans", color: Color.fromRGBO(51, 51, 51, 1)),
+                                                ),                                            
+                                            ),
+                                            Container(
+                                              width: 291,
+                                              padding: EdgeInsets.all(11),
+                                              color: Color.fromRGBO(247, 247, 247, 1),
+                                              child:
+                                              Text(list[index].snippet)
+                                            )
+                                          ],
+                                        )
+                                      ]
                                     );
                                   }
                                 }
@@ -130,7 +260,7 @@ class _SelectedVideoDetailPageState extends State<SelectedVideoDetailPage> {
                     ),
                 ),
               ),
-              Spacer(flex: 3),
+              Spacer(flex: 1),
               SvgPicture.network(
                 'https://static.chorus.ai/images/chorus-logo.svg',
                 semanticsLabel: 'A shark?!',
