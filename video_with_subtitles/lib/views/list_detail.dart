@@ -16,6 +16,45 @@ class _SelectedVideoDetailPageState extends State<SelectedVideoDetailPage> {
   var isLoading = false;
   VideoPlayerController _controller;
 
+  _fetchData() async {
+    setState(() {
+      isLoading = true;
+    });
+    String url = "https://static.chorus.ai/api/${widget._selected}.json";
+    final response = await http.get(url);
+    if (response.statusCode == 200) {
+      list = (json.decode(response.body) as List)
+        .map((data) => new VideoDetails.fromJson(data))
+        .toList();
+      list.sort((a, b)=>a.time.compareTo(b.time));
+      setState(() {
+        isLoading = false;
+      });
+    } else {
+      throw Exception('Failed to load photos');
+    }
+  }
+
+  @override
+  initState() {
+    super.initState();
+    _fetchData();
+    _controller = VideoPlayerController.network(
+        'https://static.chorus.ai/api/4d79041e-f25f-421d-9e5f-3462459b9934.mp4')
+      ..initialize().then((_) {
+        // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
+        setState(() {});
+      });
+  }
+
+  @override
+  void dispose() {
+    // Ensure disposing of the VideoPlayerController to free up resources.
+    _controller.dispose();
+
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,7 +67,7 @@ class _SelectedVideoDetailPageState extends State<SelectedVideoDetailPage> {
             new Container(
               child:
                 new Container(
-                  padding: EdgeInsets.only(top: 42, left: 5, right: 5, bottom: 50 ),
+                  padding: EdgeInsets.only(top: 42, left: 13, right: 13, bottom: 50 ),
                   height: MediaQuery.of(context).size.height - 200.0,
                   width: MediaQuery.of(context).size.width - 66.0,
                   color: Colors.white,
@@ -36,12 +75,37 @@ class _SelectedVideoDetailPageState extends State<SelectedVideoDetailPage> {
                     Column(
                       children: <Widget>[
                         Text(
-                          "Moment from meeting with Two Pillars",
+                          "Moment from meeting with Two Pillars\n",
                           style: TextStyle(
                             fontSize: 16,
                             color: Color.fromRGBO(51, 51, 51, 1)
                           ),
                         ),
+                        _controller.value.initialized
+                          ? AspectRatio(
+                              aspectRatio: _controller.value.aspectRatio,
+                              child: VideoPlayer(_controller),
+                            )
+                          : Container(),
+                        isLoading
+                          ? Center(
+                              child: CircularProgressIndicator(),
+                            )
+                          : Expanded(
+                              child: ListView.builder(
+                                itemCount: list.length,
+                                shrinkWrap: true,
+                                physics: const AlwaysScrollableScrollPhysics(),
+                                itemBuilder: (BuildContext context, int index) {
+                                  return ListTile(
+                                    contentPadding: EdgeInsets.all(5.0),
+                                    title: new Text(list[index].snippet),
+                                    trailing: new Text(list[index].speaker),
+                                  );
+                                }
+                              ),
+                            ),
+                        Icon(Icons.keyboard_arrow_down)
                       ],
                     ),
                 ),
