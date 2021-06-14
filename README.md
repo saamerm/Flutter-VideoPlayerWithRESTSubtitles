@@ -1,5 +1,7 @@
 # FlutterMobile
- Practicing with some flutter code
+ Practicing with some flutter code. It took me less than 3 days to build all of this from scratch- including installing flutter, and converting the screenshot into a Figma design. 
+
+I was able to get the UI done really quick thanks to the Figma-Zeplin integration and Zeplin's Flutter extension that gave me the right controls to use. 
 
 ## Introduction
 
